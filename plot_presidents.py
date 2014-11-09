@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import matplotlib.dates as mdates
 import matplotlib.pyplot as plt
 import pandas as pd
 
@@ -9,9 +10,14 @@ def get_presidents(path):
 
 
 def plot_presidents(presidents):
-    plt.plot(presidents["start"], [0 for i in range(len(presidents["start"]))])
+    x_labels = [i.strftime("%Y-%m-%d") for i in presidents["start"]]
+    x = [mdates.date2num(i) for i in presidents["start"]]
+    y = [i for i in range(len(presidents["start"]))]
+    plt.plot(x, y)
     plt.ylabel("S&P 500")
     plt.xlabel("Presidents")
+    plt.gca().set_xticks(x)
+    plt.gca().set_xticklabels(x_labels, rotation=45, ha="right")
     plt.show()
 
 if __name__ == "__main__":
