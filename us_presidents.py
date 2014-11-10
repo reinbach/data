@@ -46,8 +46,10 @@ def scrape_list(site):
                 president = str(col[1].findAll("a")[0].string)
                 start_office = get_date(col[2])
                 end_office = get_date(col[3])
+                party = str(col[4].findAll("a")[0].string)
                 presidents.append({"president": president,
-                                   "start": start_office, "end": end_office})
+                                   "start": start_office, "end": end_office,
+                                   "party": party})
     return presidents
 
 
@@ -56,13 +58,16 @@ def store_HDF5(presidents, path):
         pres_list = []
         start_list = []
         end_list = []
+        party_list = []
         for data in presidents:
             pres_list.append(data["president"])
             start_list.append(data["start"])
             end_list.append(data["end"])
+            party_list.append(data["party"])
         store["presidents"] = pd.DataFrame({"name": pres_list,
                                             "start": start_list,
-                                            "end": end_list})
+                                            "end": end_list,
+                                            "party": party_list})
 
 def get_presidents():
     presidents = scrape_list(US_SITE)
